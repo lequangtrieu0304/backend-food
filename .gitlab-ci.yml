@@ -1,0 +1,33 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+
+  script:
+    - docker build -t "$DOCKER_IMAGE" .
+    - docker push "$DOCKER_IMAGE"
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    # Stop the existing container (if any)
+    - docker stop nestjs || true
+    - docker rm nestjs || true
+    # Pull the latest image
+    - docker pull "$DOCKER_IMAGE"
+    # Start a new container from the latest image
+    - docker run -d --name nestjs -p 3000:3000 "$DOCKER_IMAGE"
+  only:
+    - main

@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  #  mysql:
+  #    image: mysql:8.0
+  #    container_name: my_mysql
+  #    environment:
+  #      MYSQL_ROOT_PASSWORD: my-secret-pw
+  #      MYSQL_DATABASE: my_database
+  #      MYSQL_USER: my_user
+  #      MYSQL_PASSWORD: my_password
+  #    volumes:
+  #      - ./docker-data/mysql-data:/var/lib/mysql
+  #      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+  #    ports:
+  #      - "3306:3306"
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: quangtrieu
+      MONGO_INITDB_ROOT_PASSWORD: 123123
+      MONGO_INITDB_DATABASE: dbfood
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
