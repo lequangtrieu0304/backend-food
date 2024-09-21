@@ -76,11 +76,7 @@ export function ApiLanguageHeader(
 }
 
 export function ApiTagsAndBearer(...tags: string[]) {
-  return applyDecorators(
-    ApiLanguageHeader(),
-    ApiBearerAuth(),
-    SwgApiTags(...tags),
-  );
+  return applyDecorators(ApiBearerAuth(), SwgApiTags(...tags));
 }
 
 export const ApiPaginatedResponse = <TModel extends Type>(model?: TModel) => {

@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { defaultPayload } from '@common/api.schema';
 
 @Catch(HttpException)
 export class ValidationExceptionFilter implements ExceptionFilter {
@@ -17,8 +18,9 @@ export class ValidationExceptionFilter implements ExceptionFilter {
     const message = exceptionResponse.message || 'Validation failed';
 
     response.status(HttpStatus.BAD_REQUEST).json({
+      ...defaultPayload,
       statusCode: status,
-      error: 'Bad Request',
+      success: false,
       message: Array.isArray(message) ? message.join(', ') : message,
     });
   }

@@ -4,6 +4,7 @@ import { v4 as uuidV4 } from 'uuid';
 export abstract class DatabaseEntityAbstract {
   @DatabaseProp({
     type: String,
+    auto: true,
     default: uuidV4,
   })
   _id?: string;
@@ -25,7 +26,8 @@ export abstract class DatabaseEntityAbstract {
 
   @DatabaseProp({
     required: false,
-    index: true,
+    type: String,
+    ref: 'users',
     default: null,
   })
   createdBy?: string;

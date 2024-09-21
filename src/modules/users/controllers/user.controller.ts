@@ -1,20 +1,29 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserService } from '@modules/users/services/user.service';
 import { UserDto, UserLoginDto } from '@modules/users/dtos/user.dto';
-import { UserDoc, UserEntity } from '@modules/users/entities/user.entity';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from '@modules/users/entities/user.entity';
+import { ApiExtraModels } from '@nestjs/swagger';
 import {
   ApiCreateOperation,
   ApiListOperation,
+  ApiOperation,
   ApiPaginatedResponse,
+  ApiTagsAndBearer,
 } from '@common/swagger/swagger.decorator';
 import { PaginatedResult } from '@common/api.schema';
+import { SkipAuth, UserAuth } from '@common/auth/jwts/jwt.decorator';
 
-@ApiTags('User')
+@ApiTagsAndBearer('User')
 @ApiExtraModels()
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @ApiOperation({ summary: 'me' })
+  @Get('me')
+  getMe(@UserAuth() user: UserEntity): UserEntity {
+    return user;
+  }
 
   @ApiListOperation()
   @Get()
@@ -25,12 +34,14 @@ export class UserController {
 
   @ApiCreateOperation()
   @Post()
-  async create(@Body() body: UserDto) {
+  @SkipAuth()
+  async signup(@Body() body: UserDto) {
     return this.userService.create<UserEntity>(body);
   }
 
   @ApiCreateOperation({ summary: 'Login' })
   @Post('/login')
+  @SkipAuth()
   async login(@Body() body: UserLoginDto) {
     return this.userService.login(body);
   }
