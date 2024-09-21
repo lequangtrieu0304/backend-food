@@ -47,6 +47,13 @@ export class UserEntity extends DatabaseEntityAbstract {
 
   @DatabaseProp({
     required: false,
+    index: true,
+    default: true,
+  })
+  isVerified?: boolean;
+
+  @DatabaseProp({
+    required: false,
     maxlength: 200,
     trim: true,
   })

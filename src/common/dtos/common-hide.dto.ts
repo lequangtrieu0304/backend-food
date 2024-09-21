@@ -1,12 +1,12 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 
-export class CreateHideDto {
+export class CreateUserIdHideDto {
   @ApiHideProperty()
   @IsOptional()
-  _id?: string;
+  createdBy?: string;
 
   @ApiHideProperty()
   @IsOptional()
-  deleted?: boolean;
+  updatedBy?: string;
 }
