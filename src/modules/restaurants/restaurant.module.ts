@@ -8,6 +8,7 @@ import { RestaurantController } from '@modules/restaurants/controllers/restauran
 import { RestaurantService } from '@modules/restaurants/services/restaurant.service';
 import { CloudinaryModule } from '@providers/cloudinary/cloudinary.module';
 import { MenuEntity, MenuSchema } from '@modules/menus/entities/menu.entity';
+import { RestaurantNotExistValidator } from '@modules/restaurants/validators/restaurant-not-exist.validator';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MenuEntity, MenuSchema } from '@modules/menus/entities/menu.entity';
     CloudinaryModule,
   ],
   controllers: [RestaurantController],
-  providers: [RestaurantService],
+  providers: [RestaurantService, RestaurantNotExistValidator],
+  exports: [RestaurantService, RestaurantNotExistValidator],
 })
 export class RestaurantModule {}

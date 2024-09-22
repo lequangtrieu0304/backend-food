@@ -10,6 +10,8 @@ import { JwtAuthModule } from '@common/auth/jwts/jwt.module';
 import { RestaurantModule } from '@modules/restaurants/restaurant.module';
 import { CloudinaryModule } from '@providers/cloudinary/cloudinary.module';
 import { MenuModule } from '@modules/menus/menu.module';
+import { OrderModule } from '@modules/orders/order.module';
+import { ClsModule } from 'nestjs-cls';
 
 @Module({
   imports: [
@@ -17,12 +19,17 @@ import { MenuModule } from '@modules/menus/menu.module';
     ConfigModule.forRoot({ isGlobal: true }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     PassportModule.register({ defaultStrategy: 'jwt-refresh-token' }),
+    ClsModule.forRoot({
+      global: true,
+      middleware: { mount: true },
+    }),
     JwtAuthModule,
     CloudinaryModule,
 
     UserModule,
     RestaurantModule,
     MenuModule,
+    OrderModule,
   ],
   providers: [
     {
@@ -33,6 +40,6 @@ import { MenuModule } from '@modules/menus/menu.module';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*'); // Apply middleware to all routes
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
