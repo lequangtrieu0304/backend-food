@@ -7,6 +7,7 @@ import {
   OrderSchema,
 } from '@modules/orders/entities/order.entity';
 import { RestaurantModule } from '@modules/restaurants/restaurant.module';
+import { SocketModule } from '@common/socket/socket.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RestaurantModule } from '@modules/restaurants/restaurant.module';
       },
     ]),
     RestaurantModule,
+    SocketModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],
