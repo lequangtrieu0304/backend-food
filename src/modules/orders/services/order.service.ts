@@ -6,7 +6,6 @@ import { OrderDoc, OrderEntity } from '@modules/orders/entities/order.entity';
 import Stripe from 'stripe';
 import { CheckoutSessionRequestDto } from '@modules/orders/dtos/order.dto';
 import { BadRequest } from '@common/exceptions/exception.resolver';
-import * as process from 'node:process';
 import { EnumStatus } from '@modules/orders/enums/order.enum';
 
 @Injectable()
